@@ -32,3 +32,7 @@ Look in the Wiki, everything from cusomizing, logging, and hosting is in there.
 
 ### Feature roadmap
 [Project Board](https://github.com/Incognito/one-time-secret/projects/1)
+
+
+
+PUBLISH_SECRET_URI='/share' KEY_NAME_RANDOM_BYTES=128 PORT=8080 DOMAIN=https://bdodroid-shadowtopstudios-one-time-secret-5grv7v9jfvpgq-8080.githubpreview.dev HTTP_TIMEOUT_MS=5000 MAX_UPLOAD_KB=128 node dist/bin/cli.js web:start
