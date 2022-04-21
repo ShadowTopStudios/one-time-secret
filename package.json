@@ -1,6 +1,6 @@
 {
-  "name": "one-time-secret",
-  "version": "0.0.0",
+  "name": "zonos-share",
+  "version": "0.0.1",
   "private": true,
   "main": "dist/src/index.js",
   "typings": "dist/src/index.d.ts",
@@ -22,13 +22,6 @@
     "test:e2e": "./e2e/test.sh",
     "test:watch": "npm run test --watch"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/freight-hub/one-time-secret.git"
-  },
-  "description": "Store secrets for one-time-access.",
-  "author": "Brian Graham",
-  "keywords": [],
   "dependencies": {
     "@types/winston-syslog": "^2.0.4",
     "node-url-shortener": "^2.0.1",

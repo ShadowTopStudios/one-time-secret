@@ -34,13 +34,12 @@ export class ConfirmationController implements WebControllerInterface {
         let _this = this;
         _this.secretStore.set(secretKey, <{secret: string}> { secret: encryptedMessage }, +<string> parsedBody.ttl);
 
-        const secretUrl = new URL('/fetch', `https://bdodroid-shadowtopstudios-one-time-secret-5grv7v9jfvpgq-8080.githubpreview.dev`);
+        const secretUrl = new URL('/fetch', process.env.DOMAIN);
         secretUrl.searchParams.append('key', secretKey);
         secretUrl.searchParams.append('iv', iv.toString('hex'));
         secretUrl.searchParams.append('pass', pass);
 
         var urlShortener = require("node-url-shortener");
-
         urlShortener.short(encodeURIComponent(secretUrl.toString()), function (err: any, url: String) {
           if(err){
             console.log(err);
