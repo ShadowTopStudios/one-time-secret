@@ -8,6 +8,7 @@
     "node": ">=14.0.0"
   },
   "scripts": {
+    "start": "npm run build && node dist/bin/cli.js web:start",
     "build": "tsc --rootDir ./",
     "build:watch": "tsc --rootDir ./ -w",
     "build:test": "tsc --rootDir ./ ",
