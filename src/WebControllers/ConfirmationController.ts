@@ -32,6 +32,9 @@ export class ConfirmationController implements WebControllerInterface {
         const pass = this.generateIv().toString('hex');
         const encryptedMessage = this.encrypt(parsedBody.secret, iv, pass);
         let _this = this;
+        var QRCode = require('qrcode');
+        var request = require('request');
+
         _this.secretStore.set(secretKey, <{secret: string}> { secret: encryptedMessage }, +<string> parsedBody.ttl);
 
         const secretUrl = new URL('/fetch', process.env.DOMAIN);
@@ -39,19 +42,26 @@ export class ConfirmationController implements WebControllerInterface {
         secretUrl.searchParams.append('iv', iv.toString('hex'));
         secretUrl.searchParams.append('pass', pass);
 
-        var urlShortener = require("node-url-shortener");
-        urlShortener.short(encodeURIComponent(secretUrl.toString()), function (err: any, url: String) {
-          if(err){
-            console.log(err);
-            response.writeHead(402, { 'Content-Type': 'text/html' });
-            response.end(_this.render("failed to generate short url"));
+        request({
+            url: "https://is.gd/create.php?format=simple&url="+encodeURIComponent(secretUrl.toString()),
+            json: true
+        }, async function (error: any, reqResponse: any, body: any) {
+            if (!error && reqResponse.statusCode == 200) {
+              QRCode.toDataURL(body, function (err: any, url: any) {
+                if(!err) {
+                  response.writeHead(200, { 'Content-Type': 'text/html' });
+                  response.end(_this.render(body, url));
+                }
+              });     
+            } else {
+                console.log('error', error);
+                response.writeHead(402, { 'Content-Type': 'text/html' });
+                response.end(_this.render("failed to generate short url"));
+            }
             resolve(undefined);
-          }else{ 
-            response.writeHead(200, { 'Content-Type': 'text/html' });
-            response.end(_this.render(url.toString()));
-            resolve(undefined);
-          }
         });
+
+       
       });
     });
   }
