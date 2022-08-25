@@ -35,4 +35,11 @@ Look in the Wiki, everything from cusomizing, logging, and hosting is in there.
 
 
 
-PUBLISH_SECRET_URI='/share' KEY_NAME_RANDOM_BYTES=128 PORT=8080 DOMAIN=https://bdodroid-shadowtopstudios-one-time-secret-5grv7v9jfvpgq-8080.githubpreview.dev HTTP_TIMEOUT_MS=5000 MAX_UPLOAD_KB=128 node dist/bin/cli.js web:start
+PUBLISH_SECRET_URI='/share' KEY_NAME_RANDOM_BYTES=128 PORT=80 DOMAIN=https://c789-135-148-26-234.ngrok.io HTTP_TIMEOUT_MS=5000 MAX_UPLOAD_KB=128 node dist/bin/cli.js web:start
+
+
+### Notes
+```bash 
+npm run build
+node dist/bin/cli.js web:start
+```
