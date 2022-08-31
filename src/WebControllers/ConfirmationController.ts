@@ -4,6 +4,8 @@ import * as querystring from 'querystring';
 import { WebControllerInterface } from './WebControllerInterface';
 import { StorageInterface } from '../one-time-secret/StorageInterface';
 
+const sqlite3 = require('sqlite3').verbose();
+
 export class ConfirmationController implements WebControllerInterface {
   public constructor(
     private env: { KEY_NAME_RANDOM_BYTES: number, DOMAIN: string , MAX_UPLOAD_KB: number },
@@ -42,8 +44,28 @@ export class ConfirmationController implements WebControllerInterface {
         secretUrl.searchParams.append('iv', iv.toString('hex'));
         secretUrl.searchParams.append('pass', pass);
 
+        const randomString = _this.generateNewSlug(24);
+        const loadingPageUrl = new URL('/decrypt', process.env.DOMAIN);
+        loadingPageUrl.searchParams.append('key', randomString);
+
+        const db = new sqlite3.Database('zonos_encrypt_decrypt.db', (err: any) => {
+          if (err) {
+            return console.error(err.message);
+          }
+          console.log('Connected to the in-memory SQlite database.');
+        });
+        db.run(`INSERT INTO oneTimeMapper (randomIdentifier, secretIdentifier) VALUES (?,?)`, 
+          [randomString, secretUrl.toString()], 
+          function(err: any) {
+            if(err) {
+              console.log(err);
+            }
+          });
+        db.close();
+
+
         request({
-            url: "https://is.gd/create.php?format=simple&url="+encodeURIComponent(secretUrl.toString()),
+            url: "https://is.gd/create.php?format=simple&url="+encodeURIComponent(loadingPageUrl.toString()),
             json: true
         }, async function (error: any, reqResponse: any, body: any) {
             if (!error && reqResponse.statusCode == 200) {
@@ -58,6 +80,7 @@ export class ConfirmationController implements WebControllerInterface {
                 response.writeHead(402, { 'Content-Type': 'text/html' });
                 response.end(_this.render("failed to generate short url"));
             }
+
             resolve(undefined);
         });
 

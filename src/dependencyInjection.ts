@@ -5,9 +5,11 @@ import { RequestHandler } from './httpd/RequestHandler';
 import { getRouter } from './WebControllers/router';
 import { AuthorController } from './WebControllers/AuthorController';
 import { ConfirmationController } from './WebControllers/ConfirmationController';
+import { LoadingController } from './WebControllers/LoadingController';
 import { FetchController } from './WebControllers/FetchController';
 import { render as ConfirmationView } from './templates/ConfirmationView';
 import { render as AuthorView } from './templates/AuthorView';
+import { render as LoadingView } from './templates/LoadingView';
 import { InMemoryStorage } from './one-time-secret/InMemoryStorage';
 import { generateNewSlug } from './CSRNGSlugs/SlugGenerator';
 import { generateIv, encrypt, decrypt } from './crypto/crypto';
@@ -35,6 +37,11 @@ const confirmationController = new ConfirmationController(
   encrypt,
 );
 
+// add new page that displays the middleware loading page
+const loadingController = new LoadingController(
+  LoadingView
+);
+
 const fetchController = new FetchController(
   secretStore,
   decrypt
@@ -45,7 +52,8 @@ const createApp = () => {
     env.PUBLISH_SECRET_URI,
     fetchController.execute.bind(fetchController),
     confirmationController.execute.bind(confirmationController),
-    authorController.execute.bind(authorController)
+    authorController.execute.bind(authorController),
+    loadingController.execute.bind(loadingController)
   );
 
   const httpd = createHttpd(router);

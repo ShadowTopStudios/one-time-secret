@@ -29,6 +29,7 @@
     "jest-junit": "^12.2.0",
     "node-url-shortener": "^2.0.1",
     "qrcode": "^1.5.0",
+    "sqlite3": "^5.0.11",
     "typescript": "^4.4.3",
     "winston": "^3.3.3",
     "winston-syslog": "^2.4.4"

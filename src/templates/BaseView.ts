@@ -4,12 +4,16 @@ export function render(body: string): string {
       <head>
         <meta charset="utf-8">
         <title>One Time Secret</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
         <style>
         body {
-          background: white }
+          background: #58595B }
         section {
-          background: black;
+          background: #070808;
           color: white;
+          font-family: 'Roboto', sans-serif;
           border-radius: 1em;
           padding: 3em;
           position: absolute;
@@ -29,7 +33,7 @@ export function render(body: string): string {
             height: 80px;
             border: none;
             outline: none;
-            background: #2f2f2f;
+            background: #568DA7;
             color: #fff;
             font-size: 22px;
             border-radius: 40px;
